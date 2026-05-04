@@ -264,7 +264,7 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
           {filtered.map((p) => {
             const firstVariant = p.variants?.[0] || {};
             const displayImg = firstVariant.images?.[0]
-              ? `http://localhost:5000${firstVariant.images[0]}`
+              ? `https://shivaybackend.onrender.com${firstVariant.images[0]}`
               : "https://via.placeholder.com/50";
             const isHovered = hoveredRow === p._id;
 

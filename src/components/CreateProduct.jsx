@@ -75,7 +75,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
           const loadedGlobalImages = [null, null, null, null, null];
           if (editData.thumbnail) {
             loadedGlobalImages[0] = {
-              preview: `http://localhost:5000${editData.thumbnail}`,
+              preview: `https://shivaybackend.onrender.com${editData.thumbnail}`,
               existingPath: editData.thumbnail,
             };
           }
@@ -83,7 +83,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
             editData.gallery.forEach((gImg, idx) => {
               if (idx < 4)
                 loadedGlobalImages[idx + 1] = {
-                  preview: `http://localhost:5000${gImg}`,
+                  preview: `https://shivaybackend.onrender.com${gImg}`,
                   existingPath: gImg,
                 };
             });
@@ -105,7 +105,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
               v.images.forEach((imgPath, idx) => {
                 if (imgPath && idx < 5) {
                   mappedImages[idx] = {
-                    preview: `http://localhost:5000${imgPath}`,
+                    preview: `https://shivaybackend.onrender.com${imgPath}`,
                     existingPath: imgPath,
                   };
                 }

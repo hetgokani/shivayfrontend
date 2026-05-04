@@ -119,7 +119,10 @@ const ProductPage = () => {
     return (
       <div style={{ padding: "100px", textAlign: "center" }}>
         <h2 style={{ color: THEME.forest }}>Product not found.</h2>
-        <p>Please check your backend connection at http://localhost:5000</p>
+        <p>
+          Please check your backend connection at
+          https://shivaybackend.onrender.com
+        </p>
       </div>
     );
 
@@ -160,7 +163,7 @@ const ProductPage = () => {
             }}
           >
             <img
-              src={`http://localhost:5000${currentImage}`}
+              src={`https://shivaybackend.onrender.com${currentImage}`}
               style={{ width: "100%", height: "600px", objectFit: "contain" }}
               alt="Main Product"
             />
@@ -179,7 +182,7 @@ const ProductPage = () => {
               .map((img, i) => (
                 <img
                   key={i}
-                  src={`http://localhost:5000${img}`}
+                  src={`https://shivaybackend.onrender.com${img}`}
                   onClick={() => setCurrentImage(img)}
                   style={{
                     width: "100px",

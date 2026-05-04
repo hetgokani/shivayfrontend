@@ -177,7 +177,7 @@ const ShivayProductDetails = () => {
             <div className="main-image-box">
               {hasDiscount && <div className="sale-badge">SALE</div>}
               <img
-                src={`http://localhost:5000${currentImage}`}
+                src={`https://shivaybackend.onrender.com${currentImage}`}
                 alt={product.title}
                 className="main-img"
               />
@@ -192,7 +192,7 @@ const ShivayProductDetails = () => {
                   onClick={() => setCurrentImage(img)}
                 >
                   <img
-                    src={`http://localhost:5000${img}`}
+                    src={`https://shivaybackend.onrender.com${img}`}
                     alt={`view-${i}`}
                     className="thumb-img"
                   />

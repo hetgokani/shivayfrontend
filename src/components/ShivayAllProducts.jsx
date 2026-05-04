@@ -643,7 +643,7 @@ const ShivayAllProducts = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:5000${mainVar.images?.[0] || p.thumbnail}`}
+                      src={`https://shivaybackend.onrender.com${mainVar.images?.[0] || p.thumbnail}`}
                       alt={p.title}
                       style={{
                         width: "100%",

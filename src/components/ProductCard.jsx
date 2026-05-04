@@ -126,7 +126,7 @@ const ProductCard = ({ product }) => {
   const getImageUrl = (path) => {
     if (!path) return "https://via.placeholder.com/300";
     if (path.startsWith("http")) return path;
-    return `http://localhost:5000${path}`;
+    return `https://shivaybackend.onrender.com${path}`;
   };
 
   const originalPrice = Number(

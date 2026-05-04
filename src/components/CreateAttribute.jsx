@@ -95,7 +95,9 @@ const CreateAttribute = () => {
         value: t.value || "",
         colorCode: t.colorCode || "#000000",
         imageFile: null,
-        imagePreview: t.image ? `http://localhost:5000${t.image}` : "",
+        imagePreview: t.image
+          ? `https://shivaybackend.onrender.com${t.image}`
+          : "",
         image: t.image || "",
         label: t.label || "",
       })),
@@ -801,7 +803,7 @@ const CreateAttribute = () => {
 
                       {attr.type === "image" && t.image && (
                         <img
-                          src={`http://localhost:5000${t.image}`}
+                          src={`https://shivaybackend.onrender.com${t.image}`}
                           style={{
                             width: "20px",
                             height: "20px",
