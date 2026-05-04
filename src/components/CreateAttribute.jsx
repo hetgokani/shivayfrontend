@@ -39,7 +39,9 @@ const CreateAttribute = () => {
 
   const fetchAttributes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/attributes");
+      const res = await axios.get(
+        "https://shivaybackend.onrender.com/api/attributes",
+      );
       setAttributes(res.data);
     } catch (err) {
       toast.error("Failed to fetch attributes");
@@ -158,14 +160,14 @@ const CreateAttribute = () => {
       // ADDED: Check if editing to use PUT route, else POST
       if (editId) {
         await axios.put(
-          `http://localhost:5000/api/attributes/${editId}`,
+          `https://shivaybackend.onrender.com/api/attributes/${editId}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } },
         );
         toast.success("Attribute updated successfully!");
       } else {
         await axios.post(
-          "http://localhost:5000/api/attributes/create",
+          "https://shivaybackend.onrender.com/api/attributes/create",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } },
         );
@@ -211,7 +213,9 @@ const CreateAttribute = () => {
     )
       return;
     try {
-      await axios.delete(`http://localhost:5000/api/attributes/${id}`);
+      await axios.delete(
+        `https://shivaybackend.onrender.com/api/attributes/${id}`,
+      );
       toast.success("Attribute deleted");
       fetchAttributes();
     } catch (err) {

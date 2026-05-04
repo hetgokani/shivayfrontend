@@ -18,7 +18,9 @@ const FAQ = () => {
     const fetchFaqs = async () => {
       try {
         // FIXED URL: Removed the 's' to match app.use("/api/faq", faqRoutes)
-        const response = await axios.get("http://localhost:5000/api/faq/all");
+        const response = await axios.get(
+          "https://shivaybackend.onrender.com/api/faq/all",
+        );
 
         console.log("Data received:", response.data);
 

@@ -19,7 +19,7 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
   const load = async () => {
     try {
       const res = await axios
-        .get("http://localhost:5000/api/products")
+        .get("https://shivaybackend.onrender.com/api/products")
         .catch(() => ({ data: [] }));
 
       const baseProducts = res.data || [];
@@ -28,7 +28,7 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
         baseProducts.map(async (p) => {
           try {
             const detailRes = await axios
-              .get(`http://localhost:5000/api/products/${p._id}`)
+              .get(`https://shivaybackend.onrender.com/api/products/${p._id}`)
               .catch(() => ({ data: { variants: [] } }));
 
             return { ...p, variants: detailRes.data?.variants || [] };
@@ -69,7 +69,9 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
     if (!canDelete) return toast.error("Permission Denied");
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/delete/${id}`);
+        await axios.delete(
+          `https://shivaybackend.onrender.com/api/products/delete/${id}`,
+        );
         toast.success("Product deleted");
         load();
       } catch (err) {
@@ -99,7 +101,7 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
     const newStatus = product.status === "Active" ? "Inactive" : "Active";
     try {
       await axios.put(
-        `http://localhost:5000/api/products/update/${product._id}`,
+        `https://shivaybackend.onrender.com/api/products/update/${product._id}`,
         { status: newStatus },
       );
       toast.success(`Marked as ${newStatus}`);

@@ -71,10 +71,10 @@ const ProductSection = () => {
         // 10,000% SAFE FETCHING TO PREVENT CRASHES
         const [res, attrRes] = await Promise.all([
           axios
-            .get(`http://localhost:5000/api/products/${id}`)
+            .get(`https://shivaybackend.onrender.com/api/products/${id}`)
             .catch(() => ({ data: { product: null, variants: [] } })),
           axios
-            .get(`http://localhost:5000/api/attributes`)
+            .get(`https://shivaybackend.onrender.com/api/attributes`)
             .catch(() => ({ data: [] })),
         ]);
 
@@ -136,7 +136,9 @@ const ProductSection = () => {
       const fetchReviews = async () => {
         try {
           const res = await axios
-            .get(`http://localhost:5000/api/reviews/${selectedVariant._id}`)
+            .get(
+              `https://shivaybackend.onrender.com/api/reviews/${selectedVariant._id}`,
+            )
             .catch(() => ({
               data: { reviews: [], averageRating: 0, count: 0 },
             })); // Safe fetch
@@ -227,7 +229,7 @@ const ProductSection = () => {
     }
     try {
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        "https://shivaybackend.onrender.com/api/cart/add",
         {
           productId: product._id,
           variantId: selectedVariant?._id || null,
@@ -250,7 +252,7 @@ const ProductSection = () => {
     }
     try {
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        "https://shivaybackend.onrender.com/api/cart/add",
         {
           productId: product._id,
           variantId: selectedVariant?._id || null,
@@ -271,7 +273,7 @@ const ProductSection = () => {
     setPincodeStatus("checking");
     try {
       const res = await axios
-        .get("http://localhost:5000/api/shipping/all")
+        .get("https://shivaybackend.onrender.com/api/shipping/all")
         .catch(() => ({ data: { methods: [] } }));
       const matched = res.data.methods?.find(
         (item) => item.pincode === pincode,

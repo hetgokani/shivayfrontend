@@ -43,7 +43,9 @@ const ProductCard = ({ product }) => {
       const fetchRating = async () => {
         try {
           const res = await axios
-            .get(`http://localhost:5000/api/reviews/${selectedVariant._id}`)
+            .get(
+              `https://shivaybackend.onrender.com/api/reviews/${selectedVariant._id}`,
+            )
             .catch(() => ({ data: { averageRating: 0, count: 0 } })); // Safe fetch
           setRatingInfo({
             average: res.data.averageRating || 0,
@@ -60,7 +62,7 @@ const ProductCard = ({ product }) => {
   useEffect(() => {
     if (user && product?._id) {
       axios
-        .get("http://localhost:5000/api/wishlist", {
+        .get("https://shivaybackend.onrender.com/api/wishlist", {
           withCredentials: true,
         })
         .catch(() => ({ data: { items: [] } })) // Safe fetch
@@ -150,7 +152,7 @@ const ProductCard = ({ product }) => {
     }
     try {
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        "https://shivaybackend.onrender.com/api/cart/add",
         {
           productId: product._id,
           variantId: selectedVariant?._id || null,
@@ -174,7 +176,7 @@ const ProductCard = ({ product }) => {
     try {
       if (!wishlisted) {
         const res = await axios.post(
-          "http://localhost:5000/api/wishlist/add",
+          "https://shivaybackend.onrender.com/api/wishlist/add",
           {
             productId: product._id,
             variantId: selectedVariant?._id || null,
@@ -193,7 +195,7 @@ const ProductCard = ({ product }) => {
       } else {
         if (wishlistItemId) {
           await axios.delete(
-            `http://localhost:5000/api/wishlist/remove/${wishlistItemId}`,
+            `https://shivaybackend.onrender.com/api/wishlist/remove/${wishlistItemId}`,
             { withCredentials: true },
           );
           setWishlisted(false);

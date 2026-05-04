@@ -257,8 +257,8 @@ const ShivayAllProducts = () => {
     const fetchData = async () => {
       try {
         const [catRes, prodRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/category/all"),
-          axios.get("http://localhost:5000/api/products"),
+          axios.get("https://shivaybackend.onrender.com/api/category/all"),
+          axios.get("https://shivaybackend.onrender.com/api/products"),
         ]);
         setCategories(catRes.data);
         setProducts(prodRes.data.filter((p) => p.status === "Active"));

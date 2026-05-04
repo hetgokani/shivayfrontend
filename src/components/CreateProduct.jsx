@@ -54,10 +54,10 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
       try {
         const [catRes, attrRes] = await Promise.all([
           axios
-            .get("http://localhost:5000/api/category/all")
+            .get("https://shivaybackend.onrender.com/api/category/all")
             .catch(() => ({ data: [] })),
           axios
-            .get("http://localhost:5000/api/attributes")
+            .get("https://shivaybackend.onrender.com/api/attributes")
             .catch(() => ({ data: [] })),
         ]);
         setCategoriesList(catRes.data);
@@ -359,14 +359,14 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
     try {
       if (editData && editData._id) {
         await axios.put(
-          `http://localhost:5000/api/products/update/${editData._id}`,
+          `https://shivaybackend.onrender.com/api/products/update/${editData._id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } },
         );
         toast.success("Product Updated Successfully!");
       } else {
         await axios.post(
-          "http://localhost:5000/api/products/create",
+          "https://shivaybackend.onrender.com/api/products/create",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } },
         );

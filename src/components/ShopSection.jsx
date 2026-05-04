@@ -36,10 +36,10 @@ const ShopSection = () => {
       try {
         const [catRes, prodRes] = await Promise.all([
           axios
-            .get("http://localhost:5000/api/category/all")
+            .get("https://shivaybackend.onrender.com/api/category/all")
             .catch(() => ({ data: [] })),
           axios
-            .get("http://localhost:5000/api/products/")
+            .get("https://shivaybackend.onrender.com/api/products/")
             .catch(() => ({ data: [] })),
         ]);
 

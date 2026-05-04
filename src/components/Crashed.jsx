@@ -131,7 +131,7 @@ const Crashed = () => {
     if (!productId) return toast.error("Product ID missing");
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/products/${productId}`,
+        `https://shivaybackend.onrender.com/api/products/${productId}`,
       );
       const p = res.data.product;
 

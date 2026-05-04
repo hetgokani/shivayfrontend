@@ -27,7 +27,9 @@ const ProductPage = () => {
         console.log("Fetching data for Product ID:", id);
 
         // 1. Fetch data from backend
-        const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const res = await axios.get(
+          `https://shivaybackend.onrender.com/api/products/${id}`,
+        );
         console.log("API Response received:", res.data);
 
         // 2. Validate response structure

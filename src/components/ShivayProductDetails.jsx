@@ -35,7 +35,9 @@ const ShivayProductDetails = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const res = await axios.get(
+          `https://shivaybackend.onrender.com/api/products/${id}`,
+        );
         if (res.data && res.data.product) {
           const pData = res.data.product;
           const vData = res.data.variants || [];
