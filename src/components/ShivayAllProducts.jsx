@@ -311,15 +311,109 @@ const ShivayAllProducts = () => {
       setSelectedCategories((prev) => [...prev, parentId]);
   };
 
-  if (loading)
+  if (loading) {
     return (
-      <div
-        style={{ padding: "100px", textAlign: "center", color: THEME.forest }}
-      >
-        Loading Products...
+      <div className="fast-premium-loader">
+        <style>
+          {`
+            /* Import the beautiful, modern Poppins font */
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+            .fast-premium-loader {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              min-height: 100vh;
+              background-color: ${THEME.white};
+              font-family: 'Poppins', sans-serif; /* Applied Poppins */
+              padding: 20px;
+            }
+
+            .loader-ring-wrapper {
+              position: relative;
+              width: 55px;
+              height: 55px;
+              margin-bottom: 25px;
+            }
+
+            /* Fast spinning outer ring */
+            .fast-ring {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              border: 3px solid ${THEME.border};
+              border-top-color: ${THEME.organicGreen};
+              border-right-color: ${THEME.organicGreen};
+              border-radius: 50%;
+              /* 0.6s rotation makes it feel incredibly snappy and fast */
+              animation: spin-lightning 0.6s linear infinite; 
+            }
+
+            /* Inner glowing core */
+            .glowing-core {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 16px;
+              height: 16px;
+              background-color: ${THEME.forest};
+              border-radius: 50%;
+              box-shadow: 0 0 15px 4px rgba(74, 119, 41, 0.4); /* Organic green glow */
+              animation: core-pulse 1.2s ease-in-out infinite;
+            }
+
+            /* Shimmering Text Effect (Acts like a fast progress bar) */
+            .shimmer-text {
+              font-size: clamp(16px, 4vw, 20px);
+              font-weight: 600;
+              letter-spacing: 0.5px;
+              
+              /* Gradient setup for the shimmer */
+              background: linear-gradient(
+                90deg, 
+                ${THEME.forest} 0%, 
+                #85b95d 50%, 
+                ${THEME.forest} 100%
+              );
+              background-size: 200% auto;
+              color: transparent;
+              -webkit-background-clip: text;
+              background-clip: text;
+              
+              /* The fast moving gradient tricks the brain into feeling speed */
+              animation: text-shimmer 1.5s linear infinite;
+            }
+
+            /* Animations */
+            @keyframes spin-lightning {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+
+            @keyframes core-pulse {
+              0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+              50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            }
+
+            @keyframes text-shimmer {
+              to { background-position: 200% center; }
+            }
+          `}
+        </style>
+
+        <div className="loader-ring-wrapper">
+          <div className="fast-ring"></div>
+          <div className="glowing-core"></div>
+        </div>
+
+        <h2 className="shimmer-text">
+          Quickly fetching nature's best for you...
+        </h2>
       </div>
     );
-
+  }
   return (
     <section
       style={{
