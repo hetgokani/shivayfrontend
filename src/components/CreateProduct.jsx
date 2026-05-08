@@ -49,9 +49,10 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
 
   const [copiedImages, setCopiedImages] = useState(null);
 
-  // Helper to resolve Image URL (Cloudinary vs Local)
+  // FIXED: Smart Helper to resolve Image URL (Prevents double backend URLs for Cloudinary)
   const resolvePreview = (path) => {
     if (!path) return "";
+    // If it's already a full URL (Cloudinary), return as is. Otherwise, append backend.
     return path.startsWith("http")
       ? path
       : `https://shivaybackend.onrender.com${path}`;
@@ -75,7 +76,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
           setProduct({
             title: editData.title || "",
             description: editData.description || "",
-            category: editData.category || "",
+            category: editData.category?._id || editData.category || "",
             subcategory: editData.subcategory || "",
             status: editData.status || "Active",
           });
@@ -99,9 +100,10 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
           setGlobalImages(loadedGlobalImages);
 
           const loadedAttrs = (editData.productAttributes || []).map((pa) => {
-            const fullAttr = attrRes.data.find((a) => a._id === pa.attribute);
+            const attrId = pa.attribute?._id || pa.attribute;
+            const fullAttr = attrRes.data.find((a) => a._id === attrId);
             return {
-              attribute: fullAttr || { _id: pa.attribute, terms: [] },
+              attribute: fullAttr || { _id: attrId, terms: [] },
               selectedTerms: pa.selectedTerms || [],
             };
           });
@@ -268,21 +270,12 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
           (t) => t.value === termVal,
         );
         const termLabel = termObj ? termObj.name || termObj.label : termVal;
-        const isColor =
-          attrBlock.attribute.type === "COLOR" ||
-          attrBlock.attribute.name.toLowerCase() === "color";
-        const hexVal = termObj
-          ? termObj.colorCode || termObj.color || termObj.value || termObj.hex
-          : termVal;
-
         results = results.concat(
           combine(index + 1, [
             ...currentCombo,
             {
               name: attrBlock.attribute.name,
               value: termLabel,
-              isColor: isColor,
-              hex: hexVal,
             },
           ]),
         );
@@ -350,6 +343,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
       const existingImages = [];
       v.images.forEach((slot, sIdx) => {
         if (slot?.file) formData.append(`image_${vIdx}_${sIdx}`, slot.file);
+        // FIX: Ensure existing Cloudinary paths are sent back correctly
         else if (slot?.existingPath) existingImages.push(slot.existingPath);
       });
       return {
@@ -737,9 +731,6 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
             </div>
 
             {productAttributes.map((pa, attrIdx) => {
-              const isColorAttr =
-                pa.attribute.type === "COLOR" ||
-                pa.attribute.name.toLowerCase() === "color";
               return (
                 <div
                   key={pa.attribute._id}
@@ -786,8 +777,6 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
                     }}
                   >
                     {pa.attribute.terms.map((term) => {
-                      const hexVal =
-                        term.colorCode || term.color || term.value || term.hex;
                       return (
                         <label
                           key={term.value}
@@ -817,18 +806,6 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
                               cursor: "pointer",
                             }}
                           />
-                          {isColorAttr && (
-                            <span
-                              style={{
-                                width: "14px",
-                                height: "14px",
-                                borderRadius: "50%",
-                                backgroundColor: hexVal || "#ccc",
-                                border: "1px solid #cbd5e1",
-                                display: "inline-block",
-                              }}
-                            ></span>
-                          )}
                           <span
                             style={{
                               fontSize: "14px",
@@ -841,41 +818,6 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
                         </label>
                       );
                     })}
-                  </div>
-                  <div
-                    style={{ marginTop: "15px", display: "flex", gap: "10px" }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => handleSelectAll(attrIdx)}
-                      style={{
-                        background: "#f1f5f9",
-                        border: "1px solid #cbd5e1",
-                        padding: "6px 12px",
-                        borderRadius: "4px",
-                        fontSize: "12px",
-                        cursor: "pointer",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Select All
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleClearAll(attrIdx)}
-                      style={{
-                        background: "#fff",
-                        color: "var(--mern-admin-primary)",
-                        border: "1px solid #fee2e2",
-                        padding: "6px 12px",
-                        borderRadius: "4px",
-                        fontSize: "12px",
-                        cursor: "pointer",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Select None
-                    </button>
                   </div>
                 </div>
               );
