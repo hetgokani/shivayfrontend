@@ -31,6 +31,14 @@ const ShivayProductDetails = () => {
   const [currentImage, setCurrentImage] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // ADDED: Helper to resolve Cloudinary vs Local paths
+  const resolveImg = (path) => {
+    if (!path) return "";
+    return path.startsWith("http")
+      ? path
+      : `https://shivaybackend.onrender.com${path}`;
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -78,9 +86,8 @@ const ShivayProductDetails = () => {
     }
   };
 
-  // UPDATED WHATSAPP LOGIC ONLY
   const handleWhatsAppOrder = () => {
-    const phone = "918094816007"; // REPLACE WITH YOUR NUMBER
+    const phone = "918094816007";
 
     const catTitle = product?.category?.title || "N/A";
     const subCatTitle = product?.subcategory?.title
@@ -146,7 +153,6 @@ const ShivayProductDetails = () => {
   const pDiscount = selectedVariant?.discountPrice || 0;
   const hasDiscount = pDiscount > 0 && pDiscount < pOriginal;
 
-  // Gather up to 5 images from the variant (fallback to product gallery if variant has no images)
   const displayImages = (
     selectedVariant?.images?.filter((i) => i)?.length > 0
       ? selectedVariant.images
@@ -159,12 +165,7 @@ const ShivayProductDetails = () => {
     <div style={{ backgroundColor: THEME.white, minHeight: "100vh" }}>
       <ToastContainer position="top-right" />
 
-      {/* 
-        CRITICAL FIX: padding-top: 120px pushes the content down 
-        so your website's navigation bar doesn't cover it.
-      */}
       <div className="product-page-wrapper">
-        {/* Breadcrumb / Back Button */}
         <div className="breadcrumb-nav">
           <button onClick={() => navigate(-1)} className="back-btn">
             <FaArrowLeft size={14} /> Back to Products
@@ -177,13 +178,12 @@ const ShivayProductDetails = () => {
             <div className="main-image-box">
               {hasDiscount && <div className="sale-badge">SALE</div>}
               <img
-                src={`https://shivaybackend.onrender.com${currentImage}`}
+                src={resolveImg(currentImage)}
                 alt={product.title}
                 className="main-img"
               />
             </div>
 
-            {/* 5 Thumbnails */}
             <div className="thumbnail-list">
               {displayImages.map((img, i) => (
                 <div
@@ -192,7 +192,7 @@ const ShivayProductDetails = () => {
                   onClick={() => setCurrentImage(img)}
                 >
                   <img
-                    src={`https://shivaybackend.onrender.com${img}`}
+                    src={resolveImg(img)}
                     alt={`view-${i}`}
                     className="thumb-img"
                   />
@@ -225,7 +225,6 @@ const ShivayProductDetails = () => {
 
             <div className="divider" />
 
-            {/* ATTRIBUTE SELECTORS */}
             <div className="attributes-container">
               {Object.entries(attrMap).map(([name, values]) => (
                 <div key={name} className="attribute-group">
@@ -248,14 +247,12 @@ const ShivayProductDetails = () => {
               ))}
             </div>
 
-            {/* ACTION BUTTONS */}
             <div className="action-container">
               <button onClick={handleWhatsAppOrder} className="whatsapp-btn">
                 <FaWhatsapp size={22} /> Buy on WhatsApp
               </button>
             </div>
 
-            {/* TRUST & META INFO */}
             <div className="meta-info-box">
               <div className="trust-item">
                 <FaShippingFast size={18} color={THEME.organicGreen} />
@@ -275,12 +272,11 @@ const ShivayProductDetails = () => {
         </div>
       </div>
 
-      {/* CSS STYLES */}
       <style>{`
         .product-page-wrapper {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 120px 20px 80px 20px; /* 120px top padding fixes the overlap */
+          padding: 120px 20px 80px 20px;
         }
 
         .breadcrumb-nav {
@@ -310,7 +306,6 @@ const ShivayProductDetails = () => {
           align-items: start;
         }
 
-        /* Gallery Styles */
         .main-image-box {
           width: 100%;
           background: ${THEME.softBg};
@@ -370,7 +365,6 @@ const ShivayProductDetails = () => {
           object-fit: cover;
         }
 
-        /* Details Styles */
         .category-tag {
           color: ${THEME.organicGreen};
           font-size: 13px;
@@ -522,14 +516,13 @@ const ShivayProductDetails = () => {
           color: ${THEME.textMuted};
         }
 
-        /* RESPONSIVE DESIGN */
         @media (max-width: 900px) {
           .product-grid-layout {
             grid-template-columns: 1fr;
             gap: 40px;
           }
           .product-page-wrapper {
-            padding-top: 100px; /* Slightly less on mobile, adjust if needed */
+            padding-top: 100px;
           }
         }
 

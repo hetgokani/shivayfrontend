@@ -49,6 +49,14 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
 
   const [copiedImages, setCopiedImages] = useState(null);
 
+  // Helper to resolve Image URL (Cloudinary vs Local)
+  const resolvePreview = (path) => {
+    if (!path) return "";
+    return path.startsWith("http")
+      ? path
+      : `https://shivaybackend.onrender.com${path}`;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,7 +83,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
           const loadedGlobalImages = [null, null, null, null, null];
           if (editData.thumbnail) {
             loadedGlobalImages[0] = {
-              preview: `https://shivaybackend.onrender.com${editData.thumbnail}`,
+              preview: resolvePreview(editData.thumbnail),
               existingPath: editData.thumbnail,
             };
           }
@@ -83,7 +91,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
             editData.gallery.forEach((gImg, idx) => {
               if (idx < 4)
                 loadedGlobalImages[idx + 1] = {
-                  preview: `https://shivaybackend.onrender.com${gImg}`,
+                  preview: resolvePreview(gImg),
                   existingPath: gImg,
                 };
             });
@@ -105,7 +113,7 @@ const CreateProduct = ({ editData, onSuccess, onCancel }) => {
               v.images.forEach((imgPath, idx) => {
                 if (imgPath && idx < 5) {
                   mappedImages[idx] = {
-                    preview: `https://shivaybackend.onrender.com${imgPath}`,
+                    preview: resolvePreview(imgPath),
                     existingPath: imgPath,
                   };
                 }

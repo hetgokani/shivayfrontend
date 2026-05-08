@@ -16,6 +16,14 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
   const canEdit = auth?.user?.role?.permissions?.products?.edit;
   const canDelete = auth?.user?.role?.permissions?.products?.delete;
 
+  // Helper to resolve Cloudinary vs Local paths
+  const resolveImg = (path) => {
+    if (!path) return "https://via.placeholder.com/50";
+    return path.startsWith("http")
+      ? path
+      : `https://shivaybackend.onrender.com${path}`;
+  };
+
   const load = async () => {
     try {
       const res = await axios
@@ -237,7 +245,6 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
       </style>
       <ToastContainer position="top-right" autoClose={2000} />
 
-      {/* FIXED HEADER BLOCK */}
       <div style={s.header} className="responsive-header">
         <h2 style={s.title}>Products</h2>
         {canAdd && (
@@ -263,9 +270,6 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
         <tbody>
           {filtered.map((p) => {
             const firstVariant = p.variants?.[0] || {};
-            const displayImg = firstVariant.images?.[0]
-              ? `https://shivaybackend.onrender.com${firstVariant.images[0]}`
-              : "https://via.placeholder.com/50";
             const isHovered = hoveredRow === p._id;
 
             return (
@@ -279,7 +283,11 @@ const ViewProducts = ({ onEdit, onDuplicate, onAdd }) => {
                 }}
               >
                 <td style={s.td} data-label="Image">
-                  <img src={displayImg} style={s.imgBox} alt="prod" />
+                  <img
+                    src={resolveImg(firstVariant.images?.[0])}
+                    style={s.imgBox}
+                    alt="prod"
+                  />
                 </td>
                 <td style={s.td} data-label="Name">
                   <div className="td-name-content">

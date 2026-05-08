@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, X, ChevronDown, Trash2, ChevronRight } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
@@ -606,7 +606,7 @@ const ShivayAllProducts = () => {
               background: THEME.organicGreen,
             }}
           ></span>
-          SHIVAY HERBALS
+
           <span
             style={{
               width: "30px",
@@ -709,6 +709,12 @@ const ShivayAllProducts = () => {
               const pDiscount = mainVar.discountPrice || 0;
               const hasDiscount = pDiscount > 0 && pDiscount < pOriginal;
 
+              // ADDED: Extract the image source here and check if it's an external Cloudinary link or old local link
+              const rawImgUrl = mainVar.images?.[0] || p.thumbnail;
+              const finalImgSrc = rawImgUrl?.startsWith("http")
+                ? rawImgUrl
+                : `https://shivaybackend.onrender.com${rawImgUrl}`;
+
               return (
                 <motion.div
                   key={p._id}
@@ -721,9 +727,9 @@ const ShivayAllProducts = () => {
                     border: `1px solid ${THEME.border}`,
                     padding: "12px",
                     cursor: "pointer",
-                    display: "flex", // ADDED
-                    flexDirection: "column", // ADDED
-                    height: "100%", // ADDED: Ensures the card fills the grid track
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
                   }}
                 >
                   <div
@@ -737,7 +743,7 @@ const ShivayAllProducts = () => {
                     }}
                   >
                     <img
-                      src={`https://shivaybackend.onrender.com${mainVar.images?.[0] || p.thumbnail}`}
+                      src={finalImgSrc} // Uses the dynamic variable created above
                       alt={p.title}
                       style={{
                         width: "100%",
@@ -746,7 +752,7 @@ const ShivayAllProducts = () => {
                       }}
                     />
                   </div>
-                  {/* ADDED: Flex properties here to push the button down */}
+
                   <div
                     style={{
                       padding: "0 5px",
@@ -763,7 +769,7 @@ const ShivayAllProducts = () => {
                         background: `${THEME.organicGreen}15`,
                         padding: "4px 10px",
                         borderRadius: "50px",
-                        alignSelf: "flex-start", // Keeps the badge from stretching
+                        alignSelf: "flex-start",
                       }}
                     >
                       {p.category?.title}
@@ -785,7 +791,7 @@ const ShivayAllProducts = () => {
                         alignItems: "center",
                         gap: "8px",
                         marginBottom: "12px",
-                        marginTop: "auto", // ADDED: Pushes price and button to the bottom
+                        marginTop: "auto",
                       }}
                     >
                       <span
