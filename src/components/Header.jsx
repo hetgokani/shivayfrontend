@@ -68,7 +68,7 @@ const Header = () => {
   const handleResultClick = (productId) => {
     navigate(`/product/${productId}`);
     setIsSearchOpen(false);
-    setSearchQuery("");
+    searchQuery("");
     setIsSearching(false);
   };
 
@@ -197,6 +197,14 @@ const Header = () => {
                       mainVar.price ||
                       0;
 
+                    // --- IMAGE FIX APPLIED HERE ---
+                    const imgPath = mainVar.images?.[0] || product.thumbnail;
+                    const resolvedImgSrc = imgPath
+                      ? imgPath.startsWith("http")
+                        ? imgPath
+                        : `https://shivaybackend.onrender.com${imgPath}`
+                      : "https://via.placeholder.com/50";
+
                     return (
                       <li
                         key={product._id}
@@ -204,7 +212,7 @@ const Header = () => {
                         onClick={() => handleResultClick(product._id)}
                       >
                         <img
-                          src={`https://shivaybackend.onrender.com${mainVar.images?.[0] || product.thumbnail}`}
+                          src={resolvedImgSrc}
                           alt={product.title}
                           className="search-result-img"
                         />
